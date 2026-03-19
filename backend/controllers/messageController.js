@@ -1,6 +1,7 @@
 import { Conversation } from "../models/conversationModel.js";
 import { Message } from "../models/messageModel.js";
 
+// --RouteLogic: SEND MESSAGE.
 export const sendMessage = async (req, res) => {
     try {
         const senderId = req.id;
@@ -32,5 +33,21 @@ export const sendMessage = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+    }
+}
+
+// --RouteLogic: GET MESSAGE.
+export const getMessage = async (req, res)=>{
+    try {
+        const receiverId = req.params.id;
+        const senderId = req.id;
+        const conversation = await Conversation.findOne({
+            participants: {$all: [senderId, receiverId]}
+        }).populate("messages");
+        console.log(conversation);
+        
+    } catch (error) {
+        console.log(error);
+        
     }
 }
