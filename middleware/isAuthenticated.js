@@ -18,8 +18,3 @@ const isAuthenticated = async (req, res, next) => {
   }
 };
 export default isAuthenticated;
-
-const req = {
-  id: "",
-};
-req.id = "sdlbgnjdfn";
