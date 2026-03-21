@@ -23,5 +23,3 @@ const req = {
   id: "",
 };
 req.id = "sdlbgnjdfn";
-
-//authentication done
