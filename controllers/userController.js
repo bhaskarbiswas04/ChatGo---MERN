@@ -22,7 +22,7 @@ export const register = async (req, res) => {
         .json({ message: "Username already exist. Try different!" });
     }
 
-    // Password hashed to maintain security.
+    // Password hashed to maintain security.  w3weggew wefwegw3ge4 wegwegweg wegwe wegweg wegwegweg
     const hashedPassword = await bcrypt.hash(password, 10);
 
     //Profile Photos
