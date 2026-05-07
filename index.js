@@ -21,9 +21,14 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 app.use(cookieParser());
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://chat-go-ui.vercel.app",
+];
+
 const corsOptions = {
-  origin: "http://localhost:5173",
-  credentials:true,
+  origin: allowedOrigins,
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
