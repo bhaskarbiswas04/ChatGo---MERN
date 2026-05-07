@@ -99,15 +99,24 @@ export const login = async (req, res) => {
 };
 
 //RouteLogic: log out of user.
-export const logout = async (req, res)=>{
-    try {
-        return res.status(200).cookie("token", "", {maxAge: 0}).json({
-            message: "logged out successfully."
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
+export const logout = async (req, res) => {
+  try {
+    return res
+      .status(200)
+      .cookie("token", "", {
+        maxAge: 0,
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      })
+      .json({
+        message: "logged out successfully.",
+        success: true,
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getOtherUsers = async (req, res) => {
   try {
