@@ -95,7 +95,7 @@ export const login = async (req, res) => {
     //   });
 
     return res.status(200).json({
-      message: `Welcome back ${user.fullName}`,
+      message: `Welcome back! ${user.fullName}`,
       success: true,
       token: token, // <-- The Frontend will grab this and put it in LocalStorage
       _id: user._id,
