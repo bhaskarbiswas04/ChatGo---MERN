@@ -98,6 +98,7 @@ export const login = async (req, res) => {
   }
 };
 
+//RouteLogic: log out of user.
 export const logout = async (req, res)=>{
     try {
         return res.status(200).cookie("token", "", {maxAge: 0}).json({
