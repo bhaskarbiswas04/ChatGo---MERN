@@ -79,25 +79,10 @@ export const login = async (req, res) => {
       expiresIn: "1d",
     });
 
-    // return res
-    //   .status(200)
-    //   .cookie("token", token, {
-    //     maxAge: 1 * 24 * 60 * 60 * 1000,
-    //     httpOnly: true,
-    //     sameSite: "none",
-    //     secure: true,
-    //   })
-    //   .json({
-    //     _id: user._id,
-    //     username: user.username,
-    //     fullName: user.fullName,
-    //     profilePhoto: user.profilePhoto,
-    //   });
-
     return res.status(200).json({
       message: `Welcome back! ${user.fullName}`,
       success: true,
-      token: token, // <-- The Frontend will grab this and put it in LocalStorage
+      token: token, // The Frontend will grab this and put it in LocalStorage
       _id: user._id,
       username: user.username,
       fullName: user.fullName,
