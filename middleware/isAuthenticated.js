@@ -15,9 +15,14 @@ const isAuthenticated = async (req, res, next) => {
     }
     req.id = decode.userId;
     next();
-    
+
   } catch (error) {
-    console.log(error);
+    console.log("Auth Error:", error.message);
+    // CRITICAL: You must send a response here so the frontend doesn't stay "Pending"
+    return res.status(401).json({
+      message: "Authentication failed",
+      error: error.message,
+    });
   }
 };
 export default isAuthenticated;
