@@ -1,5 +1,6 @@
 import { Conversation } from "../models/conversationModel.js";
 import { Message } from "../models/messageModel.js";
+import { io, getReceiverSocketId } from "../socket/socket.js";
 
 // --RouteLogic: SEND MESSAGE.
 export const sendMessage = async (req, res) => {
@@ -29,6 +30,11 @@ export const sendMessage = async (req, res) => {
         return res.status(201).json({newMessage});
 
         //SOCKET IO
+        const receiverSocketId = getReceiverSocketId(receiverId);
+
+        if(receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage)
+        }
 
 
     } catch (error) {
