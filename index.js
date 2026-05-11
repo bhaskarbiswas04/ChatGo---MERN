@@ -2,17 +2,16 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import dotenv from "dotenv";
-dotenv.config({});
 
-
+import { app, server } from "./socket/socket.js";
 import connectDB from "./config/database.js";
 
+dotenv.config({});
 connectDB();
 
 import userRoute from "./routes/userRoute.js";
 import messageRoute from "./routes/messageRoute.js"
 
-const app = express();
 
 const PORT = process.env.PORT || 5000;
 
@@ -37,10 +36,9 @@ app.use(cors(corsOptions));
 app.get("/", (req, res) => {
   res.send("Backend is running - ChatGo application.");
 });
-
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/message", messageRoute)
 
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     console.log(`Server listen at port: ${PORT}`);
 })
