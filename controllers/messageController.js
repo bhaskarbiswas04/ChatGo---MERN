@@ -30,8 +30,17 @@ export const sendMessage = async (req, res) => {
         
         //SOCKET IO
         const receiverSocketId = getReceiverSocketId(receiverId);
+
+        console.log("--- DEBUGGING SOCKET ---");
+        console.log("Receiver ID from Params:", receiverId);
+        console.log(
+          "Current Socket Map:",
+          JSON.stringify(io.sockets.adapter.rooms),
+        ); // Optional check
+        console.log("Target Socket ID found:", receiverSocketId);
+
         if(receiverSocketId) {
-            io.to(receiverSocketId).emit("newMessage", newMessage)
+            io.to(receiverSocketId).emit("newMessage", newMessage);
         }
 
         return res.status(201).json({ newMessage });
