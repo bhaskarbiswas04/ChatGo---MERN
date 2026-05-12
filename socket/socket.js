@@ -20,22 +20,38 @@ export const getReceiverSocketId = (receiverId) => {
 
 const userSocketMap = {}; // {userId -> socketId}
 
-io.on('connection', (socket)=>{
-    console.log('user connected', socket.id);
+io.on('connection', (socket) => {
+  console.log("user connected", socket.id);
 
-    const userId = socket.handshake.query.userId;
+  const userId = socket.handshake.query.userId;
 
-    if(userId !== undefined) {
-        userSocketMap[userId] = socket.id;
+  if (userId !== undefined) {
+    userSocketMap[userId] = socket.id;
+  }
+
+  io.emit("getOnlineUsers", Object.keys(userSocketMap)); //sending online users data to the frontend.
+
+  // --- ADD TYPING LISTENERS HERE ---
+  socket.on("typing", ({ receiverId }) => {
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      // Tell the receiver that this specific userId is typing
+      socket.to(receiverSocketId).emit("typing", userId);
     }
+  });
 
-    io.emit('getOnlineUsers', Object.keys(userSocketMap))  //sending online users data to the frontend.
+  socket.on("stop typing", ({ receiverId }) => {
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      socket.to(receiverSocketId).emit("stop typing", userId);
+    }
+  });
 
-    socket.on('disconnect', ()=>{
-        console.log('User Disconnected', socket.id);
-        delete userSocketMap[userId];
-        io.emit("getOnlineUsers", Object.keys(userSocketMap));
-    })
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  });
 });
 
 export { app, io, server };
