@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  // --- READ RECEIPTS (FEATURE 3) ---
+  // --- READ RECEIPTS ---
   socket.on("markAsSeen", async ({ senderId, receiverId }) => {
     try {
       // Update all unread messages from this sender to 'opened: true'
