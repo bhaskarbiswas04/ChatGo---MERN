@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);  //top of layer to the app server.
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://chat-go-ui.vercel.app"],
     methods: ["GET", "POST"],
   },
 });
