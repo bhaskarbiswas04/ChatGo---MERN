@@ -47,6 +47,25 @@ io.on('connection', (socket) => {
     }
   });
 
+  // --- READ RECEIPTS (FEATURE 3) ---
+  socket.on("markAsSeen", async ({ senderId, receiverId }) => {
+    try {
+      // Update all unread messages from this sender to 'opened: true'
+      await Message.updateMany(
+        { senderId, receiverId, opened: false },
+        { $set: { opened: true } },
+      );
+
+      // Find the sender's socket to tell them the messages were seen
+      const senderSocketId = getReceiverSocketId(senderId);
+      if (senderSocketId) {
+        io.to(senderSocketId).emit("messagesSeen", { receiverId });
+      }
+    } catch (error) {
+      console.error("Error in markAsSeen:", error);
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
     delete userSocketMap[userId];
