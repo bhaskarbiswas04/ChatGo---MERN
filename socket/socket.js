@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import { Message } from "../models/messageModel.js";
 import http from "http";
 import express from "express";
 
